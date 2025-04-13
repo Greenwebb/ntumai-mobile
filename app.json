@@ -23,7 +23,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.ntumai.app"
+      "package": "com.ntumai.app",
+      "permissions": []
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -32,7 +33,6 @@
       "eas": {
         "projectId": "e1396d2b-3beb-4091-8278-8834e91f0e04"
       }
-    },
-    "owner": "ntumai"
+    }
   }
 }

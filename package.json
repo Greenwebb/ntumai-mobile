@@ -35,6 +35,9 @@
   },
   "private": true,
   "resolutions": {
-    "react-native-reanimated": "~3.3.0"
+    "react-native-reanimated": "~3.3.0",
+    "@babel/core": "^7.20.0",
+    "metro": "0.76.8",
+    "metro-resolver": "0.76.8"
   }
 }

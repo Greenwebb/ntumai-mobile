@@ -1,27 +1,16 @@
 const { getDefaultConfig } = require('expo/metro-config');
-const path = require('path');
+const { withNativeWind } = require('nativewind/metro');
 
-// Find the project and workspace directories
-const projectRoot = __dirname;
+const config = getDefaultConfig(__dirname);
 
-const config = getDefaultConfig(projectRoot);
-
-// 1. Watch all files in the project directory
-config.watchFolders = [projectRoot];
-
-// 2. Let Metro know where to resolve packages
-config.resolver.nodeModulesPaths = [
-  path.resolve(projectRoot, 'node_modules'),
+// Ensure resolver extensions include all necessary file types
+config.resolver.sourceExts = [
+  'js', 'jsx', 'json', 'ts', 'tsx', 'cjs', 'mjs'
 ];
 
-// 3. Force Metro to resolve (sub)dependencies only from the `nodeModulesPaths`
-config.resolver.disableHierarchicalLookup = true;
-
-// 4. Configure file extensions to handle
+// Add assetExts for all file types your app uses
 config.resolver.assetExts = config.resolver.assetExts || [];
-config.resolver.assetExts.push('db', 'mp3', 'ttf', 'obj', 'png', 'jpg', 'jpeg', 'gif');
+config.resolver.assetExts.push('db', 'mp3', 'ttf', 'obj', 'png', 'jpg', 'jpeg');
 
-config.resolver.sourceExts = config.resolver.sourceExts || [];
-config.resolver.sourceExts.push('jsx', 'js', 'ts', 'tsx', 'json');
-
-module.exports = config;
+// Apply NativeWind configuration
+module.exports = withNativeWind(config, { input: './tailwind.config.js' });
