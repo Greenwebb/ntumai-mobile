@@ -7,6 +7,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuthStore } from './src/store/authStore';
 import * as ExpoSplashScreen from 'expo-splash-screen';
+import { StyleSheet } from 'react-native';
 
 // Auth Screens
 import { SplashScreen } from './src/screens/auth/SplashScreen';
@@ -161,7 +162,7 @@ export default function App() {
   }
 
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider style={styles.container}>
       <NavigationContainer>
         <StatusBar style="auto" />
         <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -201,3 +202,11 @@ export default function App() {
     </SafeAreaProvider>
   );
 }
+
+// Regular React Native styles instead of NativeWind
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff'
+  }
+});
