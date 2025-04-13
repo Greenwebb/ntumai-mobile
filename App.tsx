@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -7,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuthStore } from './src/store/authStore';
+import * as ExpoSplashScreen from 'expo-splash-screen';
 
 // Auth Screens
 import { SplashScreen } from './src/screens/auth/SplashScreen';
@@ -37,6 +37,9 @@ import { RiderDashboardScreen } from './src/screens/driver/RiderDashboardScreen'
 import { DeliveryDetailsScreen } from './src/screens/driver/DeliveryDetailsScreen';
 import { RiderEarningsScreen } from './src/screens/driver/RiderEarningsScreen';
 import { RiderProfileScreen } from './src/screens/driver/RiderProfileScreen';
+
+// Prevent auto-hiding splash screen
+ExpoSplashScreen.preventAutoHideAsync();
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -143,6 +146,14 @@ export default function App() {
   useEffect(() => {
     // Check authentication status when app loads
     checkAuth();
+    
+    // Hide splash screen after app is ready
+    const hideSplash = async () => {
+      await ExpoSplashScreen.hideAsync();
+    };
+    
+    // Hide splash screen after a short delay
+    setTimeout(hideSplash, 2000);
   }, []);
 
   if (isLoading) {
@@ -187,33 +198,6 @@ export default function App() {
           )}
         </Stack.Navigator>
       </NavigationContainer>
-=======
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { RootNavigator } from './src/navigation';
-import { useEffect } from 'react';
-import * as SplashScreen from 'expo-splash-screen';
-import { View } from 'react-native';
-
-// Keep splash screen visible while we initialize the app
-SplashScreen.preventAutoHideAsync();
-
-export default function App() {
-  useEffect(() => {
-    // Hide splash screen after app is ready
-    const hideSplash = async () => {
-      await SplashScreen.hideAsync();
-    };
-    
-    // Simulate loading time (replace with actual initialization logic)
-    setTimeout(hideSplash, 2000);
-  }, []);
-
-  return (
-    <SafeAreaProvider>
-      <StatusBar style="auto" />
-      <RootNavigator />
->>>>>>> fc1783eefe8c27c415edc5b525b2829ed5e2f5eb
     </SafeAreaProvider>
   );
 }
