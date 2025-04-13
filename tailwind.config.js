@@ -1,27 +1,33 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./App.{js,jsx,ts,tsx}", "./src/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./App.{js,jsx,ts,tsx}",
+    "./src/**/*.{js,jsx,ts,tsx}"
+  ],
   theme: {
     extend: {
       colors: {
-        primary: "#FF6B00",
-        secondary: "#FFA500",
-        background: "#F9F9F9",
-        card: "#FFFFFF",
-        text: "#333333",
-        border: "#E0E0E0",
-        notification: "#FF3B30",
-        success: "#4CD964",
-        warning: "#FFCC00",
-        error: "#FF3B30",
-        info: "#118AB2",
-        accent: "#FFD166",
+        primary: '#6366F1',
+        secondary: '#4F46E5',
+        accent: '#818CF8',
+        background: '#F9FAFB',
+        surface: '#FFFFFF',
+        error: '#EF4444',
+        success: '#10B981',
+        warning: '#F59E0B',
+        info: '#3B82F6',
+        dark: '#1F2937',
+        light: '#F3F4F6',
       },
       fontFamily: {
-        sans: ["System", "sans-serif"],
-        medium: ["System", "sans-serif"],
-        semibold: ["System", "sans-serif"],
-        bold: ["System", "sans-serif"],
+        sans: ['Inter', 'sans-serif'],
+      },
+      spacing: {
+        '128': '32rem',
+        '144': '36rem',
+      },
+      borderRadius: {
+        '4xl': '2rem',
       },
     },
   },
