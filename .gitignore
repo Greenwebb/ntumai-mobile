@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
 # dependencies
+=======
+# Node.js dependencies
+>>>>>>> fc1783eefe8c27c415edc5b525b2829ed5e2f5eb
 node_modules/
 
 # Expo
@@ -19,7 +23,11 @@ web-build/
 # Metro
 .metro-health-check*
 
+<<<<<<< HEAD
 # debug
+=======
+# Debug
+>>>>>>> fc1783eefe8c27c415edc5b525b2829ed5e2f5eb
 npm-debug.*
 yarn-debug.*
 yarn-error.*
@@ -28,8 +36,23 @@ yarn-error.*
 .DS_Store
 *.pem
 
+<<<<<<< HEAD
 # local env files
 .env*.local
 
 # typescript
 *.tsbuildinfo
+=======
+# Local env files
+.env*.local
+.env
+
+# TypeScript
+*.tsbuildinfo
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+>>>>>>> fc1783eefe8c27c415edc5b525b2829ed5e2f5eb

@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Ntumai",
-    "slug": "ntumai-simplified",
+    "slug": "ntumai",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -30,8 +30,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "ntumai-simplified"
+        "projectId": "e1396d2b-3beb-4091-8278-8834e91f0e04"
       }
-    }
+    },
+    "owner": "ntumai"
   }
 }
