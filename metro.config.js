@@ -1,5 +1,4 @@
 const { getDefaultConfig } = require('expo/metro-config');
-const { withNativeWind } = require('nativewind/metro');
 
 const config = getDefaultConfig(__dirname);
 
@@ -12,5 +11,4 @@ config.resolver.sourceExts = [
 config.resolver.assetExts = config.resolver.assetExts || [];
 config.resolver.assetExts.push('db', 'mp3', 'ttf', 'obj', 'png', 'jpg', 'jpeg');
 
-// Apply NativeWind configuration
-module.exports = withNativeWind(config, { input: './tailwind.config.js' });
+module.exports = config;
