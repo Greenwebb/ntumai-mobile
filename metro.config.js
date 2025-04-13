@@ -7,4 +7,7 @@ config.resolver.sourceExts = [
   'js', 'jsx', 'json', 'ts', 'tsx', 'cjs', 'mjs'
 ];
 
+// Add support for CSS files
+config.transformer.babelTransformerPath = require.resolve('react-native-css-transformer');
+
 module.exports = config;

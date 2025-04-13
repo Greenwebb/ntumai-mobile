@@ -1,0 +1,7 @@
+{
+  "name": "nativewind-postcss-plugin",
+  "version": "1.0.0",
+  "description": "Custom PostCSS plugin for NativeWind",
+  "main": "index.js",
+  "license": "MIT"
+}
