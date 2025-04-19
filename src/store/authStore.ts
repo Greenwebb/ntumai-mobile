@@ -1,151 +1,40 @@
-<<<<<<< HEAD
 import { create } from 'zustand';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { User } from '../types';
-
-interface AuthState {
-  user: User | null;
-  token: string | null;
-  isLoading: boolean;
-  error: string | null;
-  
-  login: (email: string, password: string) => Promise<void>;
-  signup: (name: string, email: string, password: string, role: 'customer' | 'vendor' | 'driver') => Promise<void>;
-  logout: () => Promise<void>;
-  verifyOtp: (email: string, otp: string) => Promise<void>;
-  resetPassword: (email: string) => Promise<void>;
-}
-
-export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  token: null,
-  isLoading: false,
-  error: null,
-  
-  login: async (email, password) => {
-    set({ isLoading: true, error: null });
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock successful login
-      const user: User = {
-        id: '1',
-        name: 'John Doe',
-        email,
-        phone: '+1234567890',
-        role: 'customer',
-        avatar: 'https://randomuser.me/api/portraits/men/1.jpg'
-      };
-      
-      const token = 'mock-jwt-token';
-      
-      // Store in AsyncStorage
-      await AsyncStorage.setItem('auth_user', JSON.stringify(user));
-      await AsyncStorage.setItem('auth_token', token);
-      
-      set({ user, token, isLoading: false });
-    } catch (error) {
-      set({ error: 'Failed to login. Please check your credentials.', isLoading: false });
-    }
-  },
-  
-  signup: async (name, email, password, role) => {
-    set({ isLoading: true, error: null });
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock successful signup
-      const user: User = {
-        id: '1',
-        name,
-        email,
-        phone: '',
-        role,
-      };
-      
-      const token = 'mock-jwt-token';
-      
-      // Store in AsyncStorage
-      await AsyncStorage.setItem('auth_user', JSON.stringify(user));
-      await AsyncStorage.setItem('auth_token', token);
-      
-      set({ user, token, isLoading: false });
-    } catch (error) {
-      set({ error: 'Failed to sign up. Please try again.', isLoading: false });
-    }
-  },
-  
-  logout: async () => {
-    set({ isLoading: true });
-    try {
-      // Remove from AsyncStorage
-      await AsyncStorage.removeItem('auth_user');
-      await AsyncStorage.removeItem('auth_token');
-      
-      set({ user: null, token: null, isLoading: false });
-    } catch (error) {
-      set({ error: 'Failed to logout.', isLoading: false });
-    }
-  },
-  
-  verifyOtp: async (email, otp) => {
-    set({ isLoading: true, error: null });
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock successful verification
-      set({ isLoading: false });
-      return Promise.resolve();
-    } catch (error) {
-      set({ error: 'Invalid OTP. Please try again.', isLoading: false });
-      return Promise.reject(error);
-    }
-  },
-  
-  resetPassword: async (email) => {
-    set({ isLoading: true, error: null });
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock successful password reset
-      set({ isLoading: false });
-      return Promise.resolve();
-    } catch (error) {
-      set({ error: 'Failed to reset password. Please try again.', isLoading: false });
-      return Promise.reject(error);
-    }
-  }
-}));
-=======
-import create from 'zustand';
 import { persist } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { User, UserRole, AuthState } from '../types';
+import { User, UserRole } from '../types';
+
+// Define the auth state interface
+interface AuthState {
+  user: User | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  error: string | null;
+  token: string | null;
+  userRole: UserRole | null;
+}
 
 // Define action types for better type safety
-type AuthActions = {
+interface AuthActions {
   login: (phoneNumber: string, password: string) => Promise<void>;
   signup: (name: string, phoneNumber: string, password: string) => Promise<void>;
   verifyOtp: (phoneNumber: string, otp: string) => Promise<void>;
   setUserRole: (role: UserRole) => void;
   logout: () => void;
   resetError: () => void;
-};
+  checkAuth: () => Promise<void>;
+}
 
 // Create the store with TypeScript typing
-const useAuthStore = create<AuthState & AuthActions>()(
+export const useAuthStore = create<AuthState & AuthActions>()(
   persist(
     (set, get) => ({
       // Initial state
       user: null,
       isAuthenticated: false,
-      isLoading: false,
+      isLoading: true,
       error: null,
       token: null,
+      userRole: null,
 
       // Actions
       login: async (phoneNumber: string, password: string) => {
@@ -170,6 +59,7 @@ const useAuthStore = create<AuthState & AuthActions>()(
               user,
               isAuthenticated: true,
               token: 'mock-token-12345',
+              userRole: user.role,
               isLoading: false,
             });
           } else {
@@ -204,6 +94,7 @@ const useAuthStore = create<AuthState & AuthActions>()(
             user,
             isAuthenticated: true,
             token: 'mock-token-67890',
+            userRole: user.role,
             isLoading: false,
           });
         } catch (error) {
@@ -236,6 +127,7 @@ const useAuthStore = create<AuthState & AuthActions>()(
               user,
               isAuthenticated: true,
               token: 'mock-token-otp-verified',
+              userRole: user.role,
               isLoading: false,
             });
           } else {
@@ -257,6 +149,7 @@ const useAuthStore = create<AuthState & AuthActions>()(
               ...user,
               role,
             },
+            userRole: role
           });
         }
       },
@@ -266,6 +159,7 @@ const useAuthStore = create<AuthState & AuthActions>()(
           user: null,
           isAuthenticated: false,
           token: null,
+          userRole: null,
           error: null,
         });
       },
@@ -273,6 +167,55 @@ const useAuthStore = create<AuthState & AuthActions>()(
       resetError: () => {
         set({ error: null });
       },
+
+      // Add the missing checkAuth function
+      checkAuth: async () => {
+        set({ isLoading: true });
+        try {
+          // Simulate checking stored credentials
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          
+          // For demo purposes, we'll randomly decide if user is authenticated
+          const isAuthenticated = Math.random() > 0.5;
+          
+          if (isAuthenticated) {
+            // Mock a stored user
+            const user: User = {
+              id: '1',
+              name: 'John Doe',
+              phoneNumber: '1234567890',
+              role: Math.random() > 0.6 ? 'customer' : Math.random() > 0.5 ? 'vendor' : 'driver',
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            };
+            
+            set({
+              user,
+              isAuthenticated: true,
+              token: 'mock-stored-token',
+              userRole: user.role,
+              isLoading: false,
+            });
+          } else {
+            set({
+              user: null,
+              isAuthenticated: false,
+              token: null,
+              userRole: null,
+              isLoading: false,
+            });
+          }
+        } catch (error) {
+          set({
+            isLoading: false,
+            error: error instanceof Error ? error.message : 'An unknown error occurred',
+            isAuthenticated: false,
+            user: null,
+            token: null,
+            userRole: null,
+          });
+        }
+      }
     }),
     {
       name: 'auth-storage',
@@ -280,6 +223,3 @@ const useAuthStore = create<AuthState & AuthActions>()(
     }
   )
 );
-
-export default useAuthStore;
->>>>>>> fc1783eefe8c27c415edc5b525b2829ed5e2f5eb
