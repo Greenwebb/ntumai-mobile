@@ -1,17 +1,8 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { User, UserRole } from '../types';
 
-// Define the auth state interface
-interface AuthState {
-  user: User | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
-  error: string | null;
-  token: string | null;
-  userRole: UserRole | null;
-}
+import { AuthState, User, UserRole } from '../types';
 
 // Define action types for better type safety
 interface AuthActions {
@@ -31,7 +22,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
       // Initial state
       user: null,
       isAuthenticated: false,
-      isLoading: true,
+      isLoading: false,
       error: null,
       token: null,
       userRole: null,
@@ -40,10 +31,10 @@ export const useAuthStore = create<AuthState & AuthActions>()(
       login: async (phoneNumber: string, password: string) => {
         try {
           set({ isLoading: true, error: null });
-          
+
           // Simulate API call
-          await new Promise(resolve => setTimeout(resolve, 1000));
-          
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+
           // Mock successful login
           if (phoneNumber === '1234567890' && password === 'password') {
             const user: User = {
@@ -54,7 +45,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
               createdAt: new Date(),
               updatedAt: new Date(),
             };
-            
+
             set({
               user,
               isAuthenticated: true,
@@ -72,14 +63,14 @@ export const useAuthStore = create<AuthState & AuthActions>()(
           });
         }
       },
-      
+
       signup: async (name: string, phoneNumber: string, password: string) => {
         try {
           set({ isLoading: true, error: null });
-          
+
           // Simulate API call
-          await new Promise(resolve => setTimeout(resolve, 1000));
-          
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+
           // Mock successful signup
           const user: User = {
             id: '2',
@@ -89,7 +80,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
             createdAt: new Date(),
             updatedAt: new Date(),
           };
-          
+
           set({
             user,
             isAuthenticated: true,
@@ -104,14 +95,14 @@ export const useAuthStore = create<AuthState & AuthActions>()(
           });
         }
       },
-      
+
       verifyOtp: async (phoneNumber: string, otp: string) => {
         try {
           set({ isLoading: true, error: null });
-          
+
           // Simulate API call
-          await new Promise(resolve => setTimeout(resolve, 1000));
-          
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+
           // Mock successful OTP verification
           if (otp === '123456') {
             const user: User = {
@@ -122,7 +113,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
               createdAt: new Date(),
               updatedAt: new Date(),
             };
-            
+
             set({
               user,
               isAuthenticated: true,
@@ -140,7 +131,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
           });
         }
       },
-      
+
       setUserRole: (role: UserRole) => {
         const { user } = get();
         if (user) {
@@ -153,7 +144,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
           });
         }
       },
-      
+
       logout: () => {
         set({
           user: null,
@@ -163,7 +154,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(
           error: null,
         });
       },
-      
+
       resetError: () => {
         set({ error: null });
       },
